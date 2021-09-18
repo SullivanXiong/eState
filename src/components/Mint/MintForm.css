@@ -1,0 +1,12 @@
+.MintFormWrapper {
+    width: inherit;
+    height: 34vh;
+    position: absolute;
+    top: 33vh;
+}
+
+.MintFormRow {
+    width: 69vw;
+    left: 50%;
+    display: block;
+}
