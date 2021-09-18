@@ -57,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ auth, setAuth, setPage }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -164,8 +164,9 @@ export default function PrimarySearchAppBar() {
             noWrap
             component="div"
             sx={{ flexGrow: 1 }}
+            onClick={() => setPage("Marketplace")}
           >
-             eState
+            eState
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -176,8 +177,13 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Marketplace</Button>
+          {!auth && (
+            <Button color="inherit">Login</Button>
+          )}
+          {auth && (
+            <Button color="inherit" onClick={() => setPage("Mint")}>Mint New Estate</Button>
+          )}
+          <Button color="inherit" onClick={() => setPage("Marketplace")}>Marketplace</Button>
           <Button color="inherit">About Us</Button>
         </Toolbar>
       </AppBar>
