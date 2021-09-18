@@ -19,50 +19,35 @@ app.post('/addNFT', (req, res) => {
     var fileData = fs.readFile('nftListings.json', 'utf8', function(err, data){    
         // Display the file content
         if (data) {
-            console.log('data')
-            console.log(JSON.parse)
             fileData = JSON.parse(data)
-            
-            const nftData = req.body.nftData;
-            var key = Object.keys(nftData)[0];
-            fileData[key] = nftData[key];
-            // nftData: { NFT_NAME: ISSUER_ID}
-            // { NFT_NAME: ISSUER_ID}
-            fs.writeFile('nftListings.json', JSON.stringify(fileData), function(err, result) {
-                if (result) console.log("wrote NFT!")
-            });
-                
-            //append the nft posted to the original data
-            // write the new dictionary with the appended data
-                // JSON.stringify()
-            res.send("wrote NFT!")
         }
         else {
-            
-            console.log('data')
-            console.log(JSON.parse)
             fileData = {}
-            
-            const nftData = req.body.nftData;
-            var key = Object.keys(nftData)[0];
-            fileData[key] = nftData[key];
-            // nftData: { NFT_NAME: ISSUER_ID}
-            // { NFT_NAME: ISSUER_ID}
-            fs.writeFile('nftListings.json', JSON.stringify(fileData), function(err, result) {
-                if (result) console.log("wrote NFT!")
-            });
-                
-            //append the nft posted to the original data
-            // write the new dictionary with the appended data
-                // JSON.stringify()
-            res.send("wrote NFT!")
         }
+
+        const nftData = req.body.nftData;
+        var key = Object.keys(nftData)[0];
+        fileData[key] = nftData[key];
+        fs.writeFile('nftListings.json', JSON.stringify(fileData), function(err, result) {
+            if (result) console.log("wrote NFT!")
+        });
+                
+        res.send("wrote NFT!")
     });
 })
 
 app.get('/getAllNFTS', (req, res) => {
     // open the file
     // res.json(file_data)
+    var fileData = fs.readFile('nftListings.json', 'utf8', function(err, data){    
+        // Display the file content
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.send(err);
+        }
+    });
 })
 
 app.listen(port, () => {
