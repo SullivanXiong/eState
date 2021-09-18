@@ -18,6 +18,7 @@
 
 .MintForm {
     float: right;
-    width: 70vw;
+    width: 68vw;
     height: calc(100vh - 64px);
+    margin: auto;
 }
