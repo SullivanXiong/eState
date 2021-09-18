@@ -6,8 +6,9 @@ const errMessages = {
     insufficientBalance: "Insufficient balance",
 }
 
+var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
+
 const mintNFT = async (creatorPublicKey, creatorPrivateKey, NFTName) => {
-    var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
     var creator = StellarSdk.Keypair.fromSecret(creatorPrivateKey)
     var err = await checkAccount(server, creatorPublicKey, creatorPrivateKey)
     if (err != '') {
@@ -125,7 +126,6 @@ const createIssuer = async (server, creator, NFTName) => {
 }
 
 const createSellOffer = async (sellerPublicKey, sellerPrivateKey, NFTName, issuer, price) => {
-    var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
 
     const keyPair = StellarSdk.Keypair.fromSecret(sellerPrivateKey)
     const NFT = new StellarSdk.Asset(NFTName, issuer)
