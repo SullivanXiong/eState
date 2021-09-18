@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import Grid from "@material-ui/core/Grid";
 import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
-import Mint from './components/Mint/Mint'
+import Mint from './components/Mint/Mint';
 
 
 function App() {
    const [ page, setPage ] = useState(undefined);
-   const [ auth, setAuth ] = useState(true);
+   const [ auth, setAuth ] = useState(undefined);
 
    return (
       <div className="App">
-         <NavBar setPage={setPage} auth={auth} setAuth={setAuth}/>
+         <NavBar  setPage={setPage} auth={auth} setAuth={setAuth}/>
          { (!page || (page && page === "Marketplace")) && (
             <>
                <br />
