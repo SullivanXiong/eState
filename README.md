@@ -11,7 +11,8 @@ eState is a
 eState is a 
 
 # How to run the environment
-- hi
+  ## Frontend
+  npm run start
 
 # Tech Stack
   ## Frontend
