@@ -13,8 +13,10 @@ const mintNFT = async (creatorPublicKey, creatorPrivateKey, NFTName) => {
     if (err != '') {
         return [null, err]
     }
-    const { transaction, NFT, issuerPrivateKey, issuerPublicKey } = await createIssuer(creator.publicKey(), NFTName);
-    return [{ transaction, NFT, issuerPrivateKey, issuerPublicKey }, '']
+    const { transactionOutput, NFT, issuerPrivateKey, issuerPublicKey } = await createIssuer(creator, NFTName);
+    // TODO IPFS
+    
+    return [{ transactionOutput, NFT, issuerPrivateKey, issuerPublicKey }, '']
 
 }
 
@@ -39,12 +41,12 @@ const checkCreatorAccount = async (creatorPublicKey, creatorPrivateKey) => {
     return ''
 }
 
-const createIssuer = async (creatorPublicKey, NFTName) => {
+const createIssuer = async (creator, NFTName) => {
     var server = new StellarSdk.Server("https://horizon-testnet.stellar.org");
     const issuer = StellarSdk.Keypair.random()
     const createAccount = ''
     try{
-        creatorAccount = await server.loadAccount(creatorPublicKey)
+        creatorAccount = await server.loadAccount(creator.publicKey())
     } catch (err) {
         console.log(err)
         return
@@ -67,9 +69,10 @@ const createIssuer = async (creatorPublicKey, NFTName) => {
         )
         .setTimeout(500)
         .build();
-    console.log(transaction)
+    transaction.sign(creator)
+    const transactionOutput = await server.submitTransaction(transaction, {skipMemoRequiredCheck: true});
     return {
-        transaction,
+        transactionOutput,
         NFT,
         issuerPrivateKey: issuer.secret(),
         issuerPublicKey: issuer.publicKey(),
@@ -77,7 +80,7 @@ const createIssuer = async (creatorPublicKey, NFTName) => {
 }
 
 // createIssuer("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIA", "testingagain").then((data) => console.log(data))
-mintNFT("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIAs", "SBYYLANBRT3EWLDEHUBDHRXU5CKLOOIQVOY7ECPG2FEUPFFDR7E45O7F", "testingagain")
+mintNFT("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIA", "SBYYLANBRT3EWLDEHUBDHRXU5CKLOOIQVOY7ECPG2FEUPFFDR7E45O7F", "testingagain")
     .then(([res, err]) => {
         console.log("response", res)
         console.log("error", err)
