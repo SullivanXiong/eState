@@ -16,6 +16,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
+import PersonIcon from '@mui/icons-material/Person';
+import albedo from '@albedo-link/intent'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -155,6 +157,11 @@ export default function PrimarySearchAppBar({ auth, setAuth, setPage }) {
     </Menu>
   );
 
+   async function isLoggedIn() {
+      const res = await albedo.publicKey({});
+      return res;
+   }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -177,14 +184,24 @@ export default function PrimarySearchAppBar({ auth, setAuth, setPage }) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+          {console.log(auth)}
           {!auth && (
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={() => {
+               isLoggedIn().then(
+                  res => {setAuth(res)
+                  console.log(res)}
+               )
+            }}>Login</Button>
           )}
           {auth && (
             <Button color="inherit" onClick={() => setPage("Mint")}>Mint New Estate</Button>
           )}
           <Button color="inherit" onClick={() => setPage("Marketplace")}>Marketplace</Button>
           <Button color="inherit">About Us</Button>
+          {auth && (
+             <PersonIcon fontSize="large" />
+          )}
+          
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
