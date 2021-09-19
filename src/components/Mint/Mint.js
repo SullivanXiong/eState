@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import MintForm from './MintForm';
+import Carousel from '../Carousel/Carousel';
+import { Item } from '../Carousel/components';
 import './Mint.css'
 
 function Mint() {
@@ -25,11 +27,18 @@ function Mint() {
         },
         defaultColor: {
             color: 'grey'
+        },
+        solidColor: {
+            color: 'black'
         }
     }
     
+    
+    const [newImages, setNewImages] = useState({ images: [] });
     const [estateName, setEstateName] = useState(undefined);
-    const [adress, setAddress] = useState(undefined);
+    const [address, setAddress] = useState(undefined);
+    const [bedNumber, setBedNumber] = useState(undefined);
+    const [sqFt, setSqFt] = useState(undefined);
 
     return (
         <div className="Mint">
@@ -38,13 +47,25 @@ function Mint() {
                     Preview of ESTATE
                 </Typography>
                 <div className="MintPreviewWrapper">
-                    <Card sx={{ maxWidth: 256 }} style={style.card}>
-                        <CardMedia
-                            component="img"
-                            height="256"
-                            image="/houseLogo512x512.jpg"
-                            alt="green iguana"
-                        />
+                    <Card sx={{ maxWidth: 360 }} style={style.card}>
+                        {!newImages.images.length && (
+                            <CardMedia
+                                component="img"
+                                height="360"
+                                image="/houseLogo512x512.jpg"
+                                alt="default house"
+                            />
+                        )}
+                        {newImages.images.length && (
+                            <Carousel title="Carousel">
+                                {newImages.images.map((image, i) => {
+                                    console.log(image)
+                                    return <Item
+                                        img={URL.createObjectURL(image)}
+                                    />
+                                })}
+                            </Carousel>
+                        )}
                         <CardContent>
                             {!estateName && (
                                 <Typography gutterBottom variant="h5" component="div" style={style.defaultColor}>
@@ -56,14 +77,34 @@ function Mint() {
                                     {estateName}
                                 </Typography>
                             )}
-                            {!adress && (
+                            {!address && (
                                 <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
                                     123 Address St
                                 </Typography>
                             )}
-                            {adress && (
+                            {address && (
+                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                    {address}
+                                </Typography>
+                            )}
+                            {!bedNumber && (
                                 <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
-                                    {adress}
+                                    0 Beds
+                                </Typography>
+                            )}
+                            {bedNumber && (
+                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                    {bedNumber} Bed(s)
+                                </Typography>
+                            )}
+                            {!sqFt && (
+                                <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
+                                    0 sq. Foot
+                                </Typography>
+                            )}
+                            {sqFt && (
+                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                    {sqFt} sq. Foot
                                 </Typography>
                             )}
                         </CardContent>
@@ -80,7 +121,7 @@ function Mint() {
                 </Typography>
                 <Divider>
                 </Divider>
-                <MintForm setEstateName={setEstateName} setAddress={setAddress}></MintForm>
+                <MintForm newImages={newImages} setNewImages={setNewImages} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setSqFt={setSqFt}></MintForm>
             </div>
         </div>
     );

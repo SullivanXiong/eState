@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import FileUpload from './FileUpload';
 import './MintForm.css'
 
-function MintForm({ setEstateName, setAddress }) {
+function MintForm({ newImages, setNewImages, setEstateName, setAddress, setBedNumber, setSqFt}) {
     const style = {
         singleTextFieldTitle: {
             display: "inline-block",
@@ -29,11 +29,10 @@ function MintForm({ setEstateName, setAddress }) {
     }
 
     const [checkedUF, toggleUF, checkedIPFS, toggleIPFS] = useChecked();
-    const [newUserInfo, setNewUserInfo] = useState({ profileImages: [] });
     
     const updateUploadedFiles = (files) => {
         console.log(files);
-        setNewUserInfo({ ...newUserInfo, profileImages: files })
+        setNewImages({ ...newImages, images: files })
     };
 
     return (
@@ -61,26 +60,6 @@ function MintForm({ setEstateName, setAddress }) {
                     />
                 </div>
                 <div className='MintFormRow'>
-                    <FormGroup
-                        row={true}
-                        style={style.uploadStyle}
-                    >
-                        <FormControlLabel control={<Checkbox checked={checkedUF} onChange={toggleUF}/>} label="Upload Files" />
-                        <FormControlLabel control={<Checkbox checked={checkedIPFS} onChange={toggleIPFS}/> } label="IPFS" />
-                    </FormGroup>
-                </div>
-                <div className='MintFormRow'>
-                    <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
-                        Upload Images
-                    </Typography>
-                    <FileUpload 
-                        accept=".jpg,.png,.jpeg,.gif"
-                        label="Estate Images"
-                        multiple
-                        updateFilesCb={updateUploadedFiles}
-                    />
-                </div>
-                <div className='MintFormRow'>
                     <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
                         Address
                     </Typography>
@@ -99,6 +78,7 @@ function MintForm({ setEstateName, setAddress }) {
                         required
                         id="outlined-required"
                         label="Number of Beds"
+                        onChange={(event) => setBedNumber(event.target.value)}
                     />
                 </div>
                 <div className='MintFormRow'>
@@ -109,6 +89,27 @@ function MintForm({ setEstateName, setAddress }) {
                         required
                         id="outlined-required"
                         label="Estate Square Footage"
+                        onChange={(event) => setSqFt(event.target.value)}
+                    />
+                </div>
+                <div className='MintFormRow'>
+                    <FormGroup
+                        row={true}
+                        style={style.uploadStyle}
+                    >
+                        <FormControlLabel control={<Checkbox checked={checkedUF} onChange={toggleUF}/>} label="Upload Files" />
+                        <FormControlLabel control={<Checkbox checked={checkedIPFS} onChange={toggleIPFS}/> } label="IPFS" />
+                    </FormGroup>
+                </div>
+                <div className='MintFormRow'>
+                    <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
+                        Upload Images
+                    </Typography>
+                    <FileUpload 
+                        accept=".jpg,.png,.jpeg,.gif"
+                        label="Estate Images"
+                        multiple
+                        updateFilesCb={updateUploadedFiles}
                     />
                 </div>
                 <div className='MintFormRow'>
