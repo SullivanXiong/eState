@@ -4,22 +4,25 @@ import ListingCard from './ListingCard';
 import NavBar from './NavBar';
 import Mint from './Mint/Mint';
 import { Item } from './Carousel/components';
+import Buy from './Buy/Buy';
+
 
 const axios = require('axios');
 
 async function getUserListings(pubkey) {
    console.log(pubkey)
-   const res = await axios.get('https://d6a1-97-105-8-140.ngrok.io/getMyNFTs?id='+ pubkey)
+   const res = await axios.get('https://7b39-97-105-8-140.ngrok.io/getMyNFTs?id='+ pubkey)
    return res
 }
 
-const MyNFTs = ({auth}) => {
+const MyNFTs = ({auth, setBuyPageData, setPage}) => {
    
    const [ listings, setListings ] = useState(undefined);
    useEffect(async () => {
       var res = await getUserListings(auth.pubkey)
-      console.log(res)
-      setListings(res)
+      console.log("inside usereffect"+res)
+      console.log(res.data)
+      setListings(res.data)
    }, [])
 
    console.log("helooo")
@@ -44,7 +47,11 @@ const MyNFTs = ({auth}) => {
                   <p>Assets</p>
                   <Grid container justifyContent="center" alignItems="center" spacing={3} style={{'padding-left': '10rem', 'padding-right': '10rem'}}>
                      {listings['assets'].map((nft) => {
-                        return <Grid item md={4}>
+                        return <Grid item md={4} 
+                           onClick={() => { 
+                           setPage("Buy")
+                           setBuyPageData(nft)
+                        }}>
                            <ListingCard images={nft.ipfs} imageAlt={nft.alt} address={nft.address} price={nft.price}
                               numRooms={nft.numRooms} numBath={nft.numBath} sqFt={nft.sqFt} />
                         </Grid>

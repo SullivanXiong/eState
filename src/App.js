@@ -93,7 +93,7 @@ function App() {
             <Sell sellPageData={sellPageData}/>
          )}
       {page && auth && page === "MyNFTs" && (
-         <MyNFTs auth={auth}/>
+         <MyNFTs auth={auth} setBuyPageData={setBuyPageData} setPage={setPage} />
       )}
       </div>
    );
