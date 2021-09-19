@@ -4,11 +4,8 @@ import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
 import Mint from './components/Mint/Mint';
 import Buy from './components/Buy/Buy';
-<<<<<<< HEAD
 import Sell from './components/Sell/Sell';
-=======
 import MyNFTs from './components/MyNFTs'
->>>>>>> f50dfe294674d165e12416a69d217112da2807cd
 import { Item } from './components/Carousel/components';
 
 const testData = [
