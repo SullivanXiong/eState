@@ -59,7 +59,6 @@ eState is a democratizing real estate market for all.
  ## Backend
     node express.js
   </br>
-  </br>
   
 # Tech Stack
   ## Frontend
