@@ -55,7 +55,7 @@ function Buy({ buyPageData }) {
                 <div className="BuyCardWrapper">
                     <Card sx={{ maxWidth: 360 }} style={style.card}>
                         <Carousel title="Carousel">
-                            {images.map((imageURL) => { return <Item img={imageURL}/> })}
+                            {buyPageData.imageURLs.map((imageURL) => { return <Item img={imageURL}/> })}
                         </Carousel>
                         <CardContent>
                             

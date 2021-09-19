@@ -18,7 +18,7 @@ function Mint({auth}) {
     console.log("MINT " + auth);
       async function mintUserNFT(pubkey) {
          console.log("KILL ME " + pubkey);
-         axios.get('https://40b3-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
+         axios.get('https://8829-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
          )
          .then(res => {
             console.log(res);
@@ -26,7 +26,7 @@ function Mint({auth}) {
             .then(out => {
                console.log(res.data.issuerPrivateKey)
                console.log(urlIPFS.urls)
-               axios.post('https://40b3-97-105-8-140.ngrok.io/mintNFT', {
+               axios.post('https://8829-97-105-8-140.ngrok.io/mintNFT', {
                   "issuerPublicKey": res.data.issuerPublicKey,
                   "issuerPrivateKey": res.data.issuerPrivateKey,
                   "creatorPublicKey": pubkey,

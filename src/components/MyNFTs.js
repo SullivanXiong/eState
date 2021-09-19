@@ -10,7 +10,7 @@ const axios = require('axios');
 
 async function getUserListings(pubkey) {
    console.log(pubkey)
-   const res = await axios.get('https://40b3-97-105-8-140.ngrok.io/getMyNFTs?id='+ pubkey)
+   const res = await axios.get('https://8829-97-105-8-140.ngrok.io/getMyNFTs?id='+ pubkey)
    return res
 }
 
