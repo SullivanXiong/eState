@@ -16,6 +16,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import PersonIcon from '@mui/icons-material/Person';
 import albedo from '@albedo-link/intent'
+import MyNFTs from './MyNFTs';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -196,10 +197,10 @@ export default function PrimarySearchAppBar({ auth, setAuth, setPage }) {
           )}
           <Button color="inherit" onClick={() => setPage("Marketplace")}>Marketplace</Button>
           <Button color="inherit">About Us</Button>
-          {auth && (
-             <PersonIcon fontSize="large" />
-          )}
           
+          {auth && (
+             <Button color="inherit" onClick={() => setPage("MyNFTs")}>My Nfts</Button>
+          )}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

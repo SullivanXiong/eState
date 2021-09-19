@@ -187,6 +187,9 @@ const buyOffer = async (buyerPubKey, buyerPrivKey, nftName, issuer, price) => {
         }
 }
 
+// buyOffer("GDID7724ERQL3CV7ENG4JMGDQVNPVDF4MGFEYTMF6KYGAK3UTCP5Q5J3",
+// "SC7LHMBLGUXFQV6UAR5SBXWO7DB5QSKTSMPSXQPMLDEBLCMAZKTZFI2Y", "boo2", "GCT6X3QSHBCYYOJJF5MZBJHT72SEYUSP53OJO3ECYS7G3K7GH7GLL4I3", "1000").then(() => console.log("success"))
+
 // createIssuer("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIA", "testingagain").then((data) => console.log(data))
 // mintNFT("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIA", "SBYYLANBRT3EWLDEHUBDHRXU5CKLOOIQVOY7ECPG2FEUPFFDR7E45O7F", "boo")
 //     .then(([res, err]) => {
@@ -196,4 +199,18 @@ const buyOffer = async (buyerPubKey, buyerPrivKey, nftName, issuer, price) => {
 
 // createSellOffer("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIA", 
 // "SBYYLANBRT3EWLDEHUBDHRXU5CKLOOIQVOY7ECPG2FEUPFFDR7E45O7F", 
-// "nft4", "GAJ7V6BVKQLNC5WUUSVUWN4ME6L4KMIPRQEVHT6FFTKPX3DLZ2TOC4IH", "1000").then(() => console.log("success"))
+// "boo", "GAVHC576OXYIGRCVXK3T4FGWGFWHM522FAUAJ6AJM62JJXZXE4H5JKOH", "1000").then(() => console.log("success"))
+
+// server.loadAccount("GC3FP3NOXKZAVWSYNV4FBADWN5UBWFZSPVUYBY4GVK5ZZ333D4FOGAIA").then((issuer) => 
+// {
+//     issuer.offers().then(data => {
+//         data.records.forEach((lol) => {
+//             server.loadAccount(lol.selling.asset_issuer).then((issuer) => {
+//                 console.log(lol.id)
+//                 console.log(issuer.data_attr)
+//             })
+//         })
+//     })
+// })
+
+// export { checkAccount, mintNFT, submitNFT, errMessages, createIssuer,  createSellOffer, buyOffer }
