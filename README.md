@@ -52,7 +52,8 @@ eState is a democratizing real estate market for all.
     ipfs-mini
     react
     
- </br>
+  </br>
+  
  ## Frontend
     npm run start
   </br>
