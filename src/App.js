@@ -53,7 +53,8 @@ function App() {
    const [ page, setPage ] = useState(undefined);
    const [ auth, setAuth ] = useState(undefined);
    const [ buyPageData, setBuyPageData ] = useState(undefined);
-
+   const [ sellPageData, setSellPageData ] = useState(undefined);
+   
    console.log(auth);
 
    return (

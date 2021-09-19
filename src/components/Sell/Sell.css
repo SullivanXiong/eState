@@ -1,0 +1,26 @@
+.Sell {
+    height: calc(100vh - 64px);
+}
+
+.SellCard {
+    
+    width: 50vw;
+    height: calc(100vh - 64px);
+    text-align: center;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    
+}
+
+.SellCardWrapper {
+    margin: auto;
+}
+
+.SellForm {
+    float: right;
+    width: 68vw;
+    height: calc(100vh - 64px);
+    margin: auto;
+}
