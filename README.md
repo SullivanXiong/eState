@@ -2,13 +2,7 @@
 Pinnacle Hacks 2021 repo for eState.
 
 eState is a democratic and transparent housing market.
-eState is a democratizing real estate market for all
-eState is a 
-eState is a 
-eState is a 
-eState is a 
-eState is a 
-eState is a 
+eState is a democratizing real estate market for all.
 
 # How to run the environment
   ## Get up-to-date npm and node
@@ -65,5 +59,4 @@ eState is a
     - express.js
 
   ## Blockchain
-    - Stellar Smart Contracts
-    - Stellar NFT
+    - stellar-sdk
