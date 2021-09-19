@@ -4,6 +4,7 @@ import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
 import Mint from './components/Mint/Mint';
 import Buy from './components/Buy/Buy';
+import MyNFTs from './components/MyNFTs'
 import { Item } from './components/Carousel/components';
 
 const testData = [
@@ -81,12 +82,15 @@ function App() {
                </Grid>
             </>
          )}
-         {page && page === "Mint" && (
-            <Mint />
+         {page && auth && page === "Mint" && (
+            <Mint auth={auth}/>
          )}
          {page && page === "Buy" && (
             <Buy buyPageData={buyPageData}/>
          )}
+      {page && auth && page === "MyNFTs" && (
+         <MyNFTs auth={auth}/>
+      )}
       </div>
    );
 }
