@@ -13,7 +13,9 @@
     margin-bottom: auto;
     
 }
-
+.SellFieldWrapper {
+    margin-top: 1vh;
+}
 .SellCardWrapper {
     margin: auto;
 }
