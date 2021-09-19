@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Carousel from '../Carousel/Carousel';
 import { Item } from '../Carousel/components';
@@ -41,14 +38,6 @@ function Buy({ buyPageData }) {
             color: 'black'
         }
     }
-    
-    
-    const [newImages, setNewImages] = useState({ images: [] });
-    const [carouselItems, setCarouselItems] = useState([])
-    const [estateName, setEstateName] = useState(undefined);
-    const [address, setAddress] = useState(undefined);
-    const [bedNumber, setBedNumber] = useState(undefined);
-    const [sqFt, setSqFt] = useState(undefined);
     
     return (
         <div className="Buy">
