@@ -1,8 +1,7 @@
 # eState
 Pinnacle Hacks 2021 repo for eState.
 
-eState is a democratic and transparent housing market.
-eState is a democratizing real estate market for all.
+eState is a platform that allows real estate agencies, estate seekers, and solo real estate agents to do estate transactions in a cheaper, faster, and more transparent way.
 
 # How to run the environment
   ## Get up-to-date npm and node
@@ -70,3 +69,8 @@ eState is a democratizing real estate market for all.
 
   ## Blockchain
     - stellar-sdk
+    - ipfs-mini
+    - ipfs-core
+    
+![image](https://user-images.githubusercontent.com/38967557/133930023-17e161e0-7c78-46d4-a5b7-afaa0a80f818.png)
+
