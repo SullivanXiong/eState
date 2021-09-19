@@ -22,6 +22,8 @@ function Buy({ buyPageData }) {
             width: '33%'
         },
         button: {
+            'background-color': '#1976d2',
+            color: 'white',
             width: '50%'
         },
         previewHeader: {
