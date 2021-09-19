@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import MintForm from './MintForm';
 import Carousel from '../Carousel/Carousel';
-import { Item } from '../Carousel/components';
 import './Mint.css'
 
 function Mint() {
@@ -35,6 +34,7 @@ function Mint() {
     
     
     const [newImages, setNewImages] = useState({ images: [] });
+    const [carouselItems, setCarouselItems] = useState([])
     const [estateName, setEstateName] = useState(undefined);
     const [address, setAddress] = useState(undefined);
     const [bedNumber, setBedNumber] = useState(undefined);
@@ -58,12 +58,7 @@ function Mint() {
                         )}
                         {newImages.images.length && (
                             <Carousel title="Carousel">
-                                {newImages.images.map((image, i) => {
-                                    console.log(image)
-                                    return <Item
-                                        img={URL.createObjectURL(image)}
-                                    />
-                                })}
+                                {carouselItems}
                             </Carousel>
                         )}
                         <CardContent>
@@ -121,7 +116,7 @@ function Mint() {
                 </Typography>
                 <Divider>
                 </Divider>
-                <MintForm newImages={newImages} setNewImages={setNewImages} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setSqFt={setSqFt}></MintForm>
+                <MintForm newImages={newImages} setNewImages={setNewImages} setCarouselItems={setCarouselItems} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setSqFt={setSqFt}></MintForm>
             </div>
         </div>
     );

@@ -7,9 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import FileUpload from './FileUpload';
+import { Item } from '../Carousel/components';
 import './MintForm.css'
 
-function MintForm({ newImages, setNewImages, setEstateName, setAddress, setBedNumber, setSqFt}) {
+function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, setAddress, setBedNumber, setSqFt}) {
     const style = {
         singleTextFieldTitle: {
             display: "inline-block",
@@ -23,16 +24,16 @@ function MintForm({ newImages, setNewImages, setEstateName, setAddress, setBedNu
         submitButton: {
             'background-color': "#1976d2",
             'color': 'white',
-            'float': 'right',
-            'margin-right': '2.5vw'
+            'float': 'left',
+            'margin-left': '1vw'
         }
     }
 
     const [checkedUF, toggleUF, checkedIPFS, toggleIPFS] = useChecked();
     
     const updateUploadedFiles = (files) => {
-        console.log(files);
         setNewImages({ ...newImages, images: files })
+        setCarouselItems({ ...newImages, images: files }.images.map((image) => { return <Item img={URL.createObjectURL(image)}/> }))
     };
 
     return (
@@ -113,7 +114,7 @@ function MintForm({ newImages, setNewImages, setEstateName, setAddress, setBedNu
                     />
                 </div>
                 <div className='MintFormRow'>
-                    <Button style={style.submitButton} variant="contained">Contained</Button>
+                    <Button style={style.submitButton} variant="contained">Create NFT</Button>
                 </div>
             </div>
         </Box>
