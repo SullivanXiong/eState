@@ -70,8 +70,6 @@ const submitNFT = async (issuerPrivateKey, creatorPublicKey, server, ipfsHash, N
     } catch (err) {
         console.log("error submitting trasnaction")
         console.log(err.response)
-        console.log(JSON.stringify(err.response.data, null, 2))
-
     }
     return transactionOutput
 }
@@ -80,8 +78,6 @@ const checkAccount = async (creatorPublicKey, creatorPrivateKey) => {
     var account = ''
     const creator = StellarSdk.Keypair.fromSecret(creatorPrivateKey)
     if (creator.publicKey() != creatorPublicKey) {
-        console.log(creator.publicKey())
-        console.log(creatorPublicKey)
         return errMessages.privatePublicKey
     }
     try {
@@ -300,6 +296,122 @@ app.get('/getMyNFTs', async (req, res) => {
     assetMetaData = await getAssetMetaData(assets)
     sales = await getOfferMetaData(offers.records)
     res.json({ "sales": sales, "assets": assetMetaData})
+})
+
+app.get('/createIssuer', async (req, res) => {
+    if (!req.query.id || !req.body.data) {
+        res.status(400).send({
+            message: "error. Need more parameters"
+        })
+        return
+    }
+    var creatorAccount = ""
+    try{
+        creatorAccount = await server.loadAccount(req.query.id)
+    } catch (err) {
+        res.status(400).send({
+            message: err
+        })
+        return
+    }
+    const issuer = StellarSdk.Keypair.random()
+    const NFT = new StellarSdk.Asset("estate", issuer.publicKey())
+    const fee = StellarSdk.BASE_FEE;
+    const networkPassphrase = StellarSdk.Networks.TESTNET;
+    const transaction = new StellarSdk.TransactionBuilder(creatorAccount, { fee, networkPassphrase })
+        .addOperation(
+            StellarSdk.Operation.createAccount({
+                destination: issuer.publicKey(),
+                startingBalance: '100'
+            })
+        )
+        .addOperation(
+            StellarSdk.Operation.changeTrust({
+                asset: NFT,
+                limit: '1',
+            })
+        )
+        .setTimeout(500)
+        .build();
+    res.json({
+        transaction: transaction.toXDR(),
+        issuerPublicKey: issuer.publicKey(),
+        issuerPrivateKey: issuer.secret()})
+})
+
+/*
+body 
+{
+    issuerId:
+    data: {
+        address: ,
+        name: ,
+        images: [asdfsadfsa,
+                asdfasfdsadf,
+                sadfsadfa,]
+    }
+}
+*/
+app.post('/mintNFT', async (req, res) => {
+    if (!req.body.data || !req.body.issuerPublicKey) {
+        res.status(400).send({
+            message: "error. Need required parameters (data, issuerId)"
+        })
+        return
+    }
+    const NFT = new StellarSdk.Asset("estate", req.body.issuerPublicKey)
+    const issuerKeypair = StellarSdk.Keypair.fromSecret(req.body.issuerPrivateKey);
+    const issuer = await server.loadAccount(issuerKeypair.publicKey())
+    const fee = StellarSdk.BASE_FEE;
+        
+    const networkPassphrase = StellarSdk.Networks.TESTNET
+    var transaction = new StellarSdk.TransactionBuilder(issuer, { fee, networkPassphrase })
+    for (var key of Object.keys(req.body.data)) {
+        if (key != "images") {
+            transaction = transaction.addOperation(
+                StellarSdk.Operation.manageData({
+                    name: key,
+                    value: req.body.data[key],
+                })
+            )
+        }
+    }
+    for (let i = 0; i < req.body.data.images.length; i++) {
+        transaction = transaction.addOperation(
+            StellarSdk.Operation.manageData({
+                name: i.toString(),
+                value: req.body.data.images[i],
+            })
+        )
+    }
+    transaction = transaction.addOperation(
+        StellarSdk.Operation.manageData({
+            name: "imageLength",
+            value: (req.body.data.images.length).toString(),
+        })
+    )
+    transaction = transaction.addOperation(
+            StellarSdk.Operation.payment({
+                destination: req.body.creatorPublicKey,
+                asset: NFT,
+                amount: '1',
+            })
+        )
+        .addOperation(
+            StellarSdk.Operation.setOptions({
+                masterWeight: 0
+            })
+        )
+        .setTimeout(600)
+        .build();
+    transaction.sign(issuerKeypair);
+    try {
+        transactionOutput = await server.submitTransaction(transaction, {skipMemoRequiredCheck: true});
+    } catch (err) {
+        console.log("error submitting trasnaction")
+        console.log(err.response)
+    }
+    res.json(transactionOutput)
 })
 
 app.listen(port, () => {
