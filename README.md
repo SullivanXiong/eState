@@ -45,6 +45,14 @@ eState is a democratizing real estate market for all.
     npm install
   </br>
   
+ ## List of Main Packages Used
+    stellar-sdk
+    albedo-link
+    material-ui
+    ipfs-mini
+    react
+    
+ </br>
  ## Frontend
     npm run start
   </br>
