@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -6,11 +6,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import IPFS from 'ipfs-mini';
 import FileUpload from './FileUpload';
 import { Item } from '../Carousel/components';
 import './MintForm.css'
 
-function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, setAddress, setBedNumber, setSqFt}) {
+function MintForm({ setCarouselItems, setEstateName, setAddress, setBedNumber, setBathroomNumber, setSqFt}) {
     const style = {
         singleTextFieldTitle: {
             display: "inline-block",
@@ -30,6 +31,37 @@ function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, se
     }
 
     const [checkedUF, toggleUF, checkedIPFS, toggleIPFS] = useChecked();
+    const [newImages, setNewImages] = useState({ images: [] });
+    const [submit, setSubmit] = useState(undefined);
+    const [urlIPFS, setUrlIPFS] = useState({ urls: []});
+
+    useEffect(() => {
+        const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+
+        for (let image of newImages.images) {
+            const reader = new FileReader();
+            reader.readAsBinaryString(image)
+
+            reader.onloadend = () => {
+                const buf = Buffer.from(reader.result) // Convert data into buffer
+                ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
+                    if(err) {
+                        console.log(err)
+                        return
+                    }
+                    let url = `https://ipfs.io/ipfs/${result}`
+                    console.log(`Url --> ${url}`)
+                    let newURLS = urlIPFS.urls.concat([url]);
+                    setUrlIPFS({ urls: newURLS })
+
+                    // ipfs.cat(result, (err, res) => {
+                    //     console.log(Buffer.from(res, 'binary'))
+                    // })
+                })
+            }
+        }
+    }, [submit])
+
     
     const updateUploadedFiles = (files) => {
         setNewImages({ ...newImages, images: files })
@@ -84,6 +116,17 @@ function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, se
                 </div>
                 <div className='MintFormRow'>
                     <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
+                        Number of Bathrooms
+                    </Typography>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Number of Bathrooms"
+                        onChange={(event) => setBathroomNumber(event.target.value)}
+                    />
+                </div>
+                <div className='MintFormRow'>
+                    <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
                         Estate Square Footage
                     </Typography>
                     <TextField
@@ -102,19 +145,34 @@ function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, se
                         <FormControlLabel control={<Checkbox checked={checkedIPFS} onChange={toggleIPFS}/> } label="IPFS" />
                     </FormGroup>
                 </div>
+                {checkedUF && (
+                    <div className='MintFormRow'>
+                        <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
+                            Upload Images
+                        </Typography>
+                        <FileUpload 
+                            accept=".jpg,.png,.jpeg,.gif"
+                            label="Upload to IPFS"
+                            multiple
+                            updateFilesCb={updateUploadedFiles}
+                        />
+                    </div>
+                )}
+                {checkedIPFS && (
+                    <div className='MintFormRow'>
+                        <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
+                            IPFS Endpoints
+                        </Typography>
+                        <TextField
+                            required
+                            id="outlined-required"
+                            label="IPFS Image 1"
+                            onChange={(event) => setSqFt(event.target.value)}
+                        />
+                    </div>
+                )}
                 <div className='MintFormRow'>
-                    <Typography variant="h6" component="div" style={style.singleTextFieldTitle}>
-                        Upload Images
-                    </Typography>
-                    <FileUpload 
-                        accept=".jpg,.png,.jpeg,.gif"
-                        label="Estate Images"
-                        multiple
-                        updateFilesCb={updateUploadedFiles}
-                    />
-                </div>
-                <div className='MintFormRow'>
-                    <Button style={style.submitButton} variant="contained">Create NFT</Button>
+                    <Button style={style.submitButton} variant="contained" onClick={() => setSubmit(true)}>Create NFT</Button>
                 </div>
             </div>
         </Box>

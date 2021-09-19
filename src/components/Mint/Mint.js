@@ -32,12 +32,11 @@ function Mint() {
         }
     }
     
-    
-    const [newImages, setNewImages] = useState({ images: [] });
     const [carouselItems, setCarouselItems] = useState([])
     const [estateName, setEstateName] = useState(undefined);
     const [address, setAddress] = useState(undefined);
     const [bedNumber, setBedNumber] = useState(undefined);
+    const [bathroomNumber, setBathroomNumber] = useState(undefined);
     const [sqFt, setSqFt] = useState(undefined);
 
     return (
@@ -48,7 +47,7 @@ function Mint() {
                 </Typography>
                 <div className="MintPreviewWrapper">
                     <Card sx={{ maxWidth: 360 }} style={style.card}>
-                        {!newImages.images.length && (
+                        {!carouselItems.length && (
                             <CardMedia
                                 component="img"
                                 height="360"
@@ -56,7 +55,7 @@ function Mint() {
                                 alt="default house"
                             />
                         )}
-                        {newImages.images.length && (
+                        {carouselItems.length && (
                             <Carousel title="Carousel">
                                 {carouselItems}
                             </Carousel>
@@ -92,6 +91,16 @@ function Mint() {
                                     {bedNumber} Bed(s)
                                 </Typography>
                             )}
+                            {!bathroomNumber && (
+                                <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
+                                    0 Bathrooms
+                                </Typography>
+                            )}
+                            {bathroomNumber && (
+                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                    {bathroomNumber} Bathroom(s)
+                                </Typography>
+                            )}
                             {!sqFt && (
                                 <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
                                     0 sq. Foot
@@ -116,7 +125,7 @@ function Mint() {
                 </Typography>
                 <Divider>
                 </Divider>
-                <MintForm newImages={newImages} setNewImages={setNewImages} setCarouselItems={setCarouselItems} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setSqFt={setSqFt}></MintForm>
+                <MintForm setCarouselItems={setCarouselItems} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setBathroomNumber={setBathroomNumber} setSqFt={setSqFt}></MintForm>
             </div>
         </div>
     );
