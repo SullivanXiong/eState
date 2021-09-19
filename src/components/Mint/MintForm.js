@@ -12,7 +12,7 @@ import { Item } from '../Carousel/components';
 import './MintForm.css'
 
 
-function MintForm({ mintUserNFT, pubkey, setCarouselItems, setEstateName, setAddress, setBedNumber, setSqFt}) {
+function MintForm({ urlIPFS, setUrlIPFS, mintUserNFT, pubkey, setCarouselItems, setEstateName, setAddress, setBedNumber, setBathroomNumber, setSqFt}) {
     const [minted, setMinted] = useState(undefined);
     console.log("MINT FORM " + pubkey);
     useCallback(async () => {
@@ -40,17 +40,18 @@ function MintForm({ mintUserNFT, pubkey, setCarouselItems, setEstateName, setAdd
     const [checkedUF, toggleUF, checkedIPFS, toggleIPFS] = useChecked();
     const [newImages, setNewImages] = useState({ images: [] });
     const [submit, setSubmit] = useState(undefined);
-    const [urlIPFS, setUrlIPFS] = useState({ urls: []});
 
     useEffect(() => {
         const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
-        for (let image of newImages.images) {
-            const reader = new FileReader();
-            reader.readAsBinaryString(image)
+        function readmultifiles(files) {
+            var reader = new FileReader();
 
-            reader.onloadend = () => {
-                const buf = Buffer.from(reader.result) // Convert data into buffer
+            function readFile(index) {
+              if( index >= files.length ) return;
+              var file = files[index];
+              reader.onload = function(e) {  
+                const buf = Buffer.from(e.target.result) // Convert data into buffer
                 ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
                     if(err) {
                         console.log(err)
@@ -58,15 +59,21 @@ function MintForm({ mintUserNFT, pubkey, setCarouselItems, setEstateName, setAdd
                     }
                     let url = `https://ipfs.io/ipfs/${result}`
                     console.log(`Url --> ${url}`)
-                    let newURLS = urlIPFS.urls.concat([url]);
-                    setUrlIPFS({ urls: newURLS })
+                    setUrlIPFS((prev) => ({ urls: [...prev.urls, result] }))
 
                     // ipfs.cat(result, (err, res) => {
                     //     console.log(Buffer.from(res, 'binary'))
                     // })
                 })
+                // do sth with bin
+                readFile(index+1)
+              }
+              reader.readAsBinaryString(file);
             }
+            readFile(0);
         }
+        readmultifiles(newImages.images)
+        console.log(urlIPFS.urls)
     }, [submit])
 
     
@@ -179,7 +186,10 @@ function MintForm({ mintUserNFT, pubkey, setCarouselItems, setEstateName, setAdd
                     </div>
                 )}
                 <div className='MintFormRow'>
-                    <Button style={style.submitButton} variant="contained" onClick={() => setSubmit(true)}>Create NFT</Button>
+                    <Button style={style.submitButton} variant="contained" onClick={() => {
+                        setSubmit(true)
+                        mintUserNFT(pubkey)
+                    }}>Create NFT</Button>
                 </div>
             </div>
         </Box>

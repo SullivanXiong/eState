@@ -18,21 +18,22 @@ function Mint({auth}) {
     console.log("MINT " + auth);
       async function mintUserNFT(pubkey) {
          console.log("KILL ME " + pubkey);
-         axios.get('https://7b39-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
+         axios.get('https://40b3-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
          )
          .then(res => {
             console.log(res);
             albedo.tx({xdr: res.data.transaction, network: 'testnet', submit: true, })
             .then(out => {
                console.log(res.data.issuerPrivateKey)
-               axios.post('https://7b39-97-105-8-140.ngrok.io/mintNFT', {
+               console.log(urlIPFS.urls)
+               axios.post('https://40b3-97-105-8-140.ngrok.io/mintNFT', {
                   "issuerPublicKey": res.data.issuerPublicKey,
                   "issuerPrivateKey": res.data.issuerPrivateKey,
                   "creatorPublicKey": pubkey,
                   "data": {
                      "address": address,
                      "name": estateName,
-                     "images": newImages.images,
+                     "images": urlIPFS.urls,
                      "bedNumber": bedNumber,
                      "sqFt": sqFt
                      
@@ -70,6 +71,8 @@ function Mint({auth}) {
     const [bedNumber, setBedNumber] = useState(undefined);
     const [bathroomNumber, setBathroomNumber] = useState(undefined);
     const [sqFt, setSqFt] = useState(undefined);
+    const [urlIPFS, setUrlIPFS] = useState({ urls: []});
+
 
     return (
         <div className="Mint">
@@ -157,7 +160,7 @@ function Mint({auth}) {
                 </Typography>
                 <Divider>
                 </Divider>
-                <MintForm setCarouselItems={setCarouselItems} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setBathroomNumber={setBathroomNumber} setSqFt={setSqFt}></MintForm>
+                <MintForm urlIPFS={urlIPFS} setUrlIPFS={setUrlIPFS} mintUserNFT={mintUserNFT} pubkey={auth.pubkey} setCarouselItems={setCarouselItems} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setBathroomNumber={setBathroomNumber} setSqFt={setSqFt}></MintForm>
             </div>
         </div>
     );
