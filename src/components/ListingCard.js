@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
+import Carousel from './Carousel/Carousel'
 
 
 const ListingCard = (props) => {
@@ -20,12 +20,9 @@ const ListingCard = (props) => {
    }
   return (
     <Card>
-      <CardMedia
-        component="img"
-        height="140"
-        image={props.imageURL}
-        alt={props.imageAlt}
-      />
+      <Carousel title="Carousel">
+        {props.images}
+      </Carousel>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.price} 
