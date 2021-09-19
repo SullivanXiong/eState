@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
 import Mint from './components/Mint/Mint';
+import Buy from './components/Buy/Buy';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
             <>
                <br />
                <Grid container justifyContent="center" alignItems="center" spacing={2}>
-                  <Grid item md={3}>
+                  <Grid item md={3} onClick={() => setPage("Buy")}>
                      <ListingCard imageURL="/Users/Kenny/Desktop/projects/eState/src/assets/house.jpg"
                         imageAlt="house" address="123 NFT St Dallas, TX" price="1537592 XLM"
                         numRooms="3" numBath="1" sqFt="1500" />
@@ -32,6 +33,9 @@ function App() {
          )}
          {page && page === "Mint" && (
             <Mint />
+         )}
+         {page && page === "Buy" && (
+            <Buy />
          )}
       </div>
    );
