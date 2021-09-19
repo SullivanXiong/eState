@@ -40,6 +40,11 @@ function Buy({ buyPageData }) {
             color: 'black'
         }
     }
+
+    var images = []
+    for (let i = 0; i < parseInt(buyPageData.imageLength, 10); i++) {
+        images.push(buyPageData.i)
+    }
     
     return (
         <div className="Buy">
@@ -50,7 +55,7 @@ function Buy({ buyPageData }) {
                 <div className="BuyCardWrapper">
                     <Card sx={{ maxWidth: 360 }} style={style.card}>
                         <Carousel title="Carousel">
-                            {buyPageData.imageURLs.map((imageURL) => { return <Item img={imageURL}/> })}
+                            {images.map((imageURL) => { return <Item img={imageURL}/> })}
                         </Carousel>
                         <CardContent>
                             

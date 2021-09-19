@@ -8,9 +8,41 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import MintForm from './MintForm';
 import Carousel from '../Carousel/Carousel';
+import albedo from '@albedo-link/intent'
 import './Mint.css'
 
-function Mint() {
+const axios = require('axios');
+
+
+function Mint({auth}) {
+    console.log("MINT " + auth);
+      async function mintUserNFT(pubkey) {
+         console.log("KILL ME " + pubkey);
+         axios.get('https://7b39-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
+         )
+         .then(res => {
+            console.log(res);
+            albedo.tx({xdr: res.data.transaction, network: 'testnet', submit: true, })
+            .then(out => {
+               console.log(res.data.issuerPrivateKey)
+               axios.post('https://7b39-97-105-8-140.ngrok.io/mintNFT', {
+                  "issuerPublicKey": res.data.issuerPublicKey,
+                  "issuerPrivateKey": res.data.issuerPrivateKey,
+                  "creatorPublicKey": pubkey,
+                  "data": {
+                     "address": address,
+                     "name": estateName,
+                     "images": newImages.images,
+                     "bedNumber": bedNumber,
+                     "sqFt": sqFt
+                     
+               }}) 
+               console.log(res);
+            })
+         })
+         .catch(err => {console.log(err)})
+
+      }
     const style = {
         card: {
             position: 'relative',

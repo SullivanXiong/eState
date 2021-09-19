@@ -3,9 +3,16 @@ var bodyParser = require('body-parser');
 // import * as Stellar from './stellar';
 var stellar = require('./stellar')
 const app = express()
-const port = 3000
+const port = 3001
 const fs = require('fs');
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 const StellarSdk = require('stellar-sdk');
 
@@ -289,17 +296,19 @@ app.get('/getMyNFTs', async (req, res) => {
         sales.push(offer.selling.asset_issuer)
     })
     account.balances.forEach((asset) => {
-        if (asset.asset_code == "boo" && asset.balance == "1.0000000" && sales.includes(asset.asset_issuer)) {
+        if (asset.asset_code == "estate" && asset.balance == "1.0000000" && !sales.includes(asset.asset_issuer)) {
             assets.push(asset.asset_issuer)
         }
     })
+   console.log(assets)
+   console.log(offers)
     assetMetaData = await getAssetMetaData(assets)
     sales = await getOfferMetaData(offers.records)
     res.json({ "sales": sales, "assets": assetMetaData})
 })
 
 app.get('/createIssuer', async (req, res) => {
-    if (!req.query.id || !req.body.data) {
+    if (!req.query.id) {
         res.status(400).send({
             message: "error. Need more parameters"
         })
@@ -361,7 +370,14 @@ app.post('/mintNFT', async (req, res) => {
     }
     const NFT = new StellarSdk.Asset("estate", req.body.issuerPublicKey)
     const issuerKeypair = StellarSdk.Keypair.fromSecret(req.body.issuerPrivateKey);
-    const issuer = await server.loadAccount(issuerKeypair.publicKey())
+    var issuer = ''
+   try {
+    issuer = await server.loadAccount(issuerKeypair.publicKey())
+   } catch (err) {
+      console.log("error submitting transaction")
+      console.log(err)
+      return
+   }
     const fee = StellarSdk.BASE_FEE;
         
     const networkPassphrase = StellarSdk.Networks.TESTNET
@@ -411,6 +427,7 @@ app.post('/mintNFT', async (req, res) => {
         console.log("error submitting trasnaction")
         console.log(err.response)
     }
+   console.log("works")
     res.json(transactionOutput)
 })
 
