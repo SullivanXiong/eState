@@ -10,7 +10,14 @@ import FileUpload from './FileUpload';
 import { Item } from '../Carousel/components';
 import './MintForm.css'
 
-function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, setAddress, setBedNumber, setSqFt}) {
+
+function MintForm({ mintUserNFT, pubkey, newImages, setNewImages, setCarouselItems, setEstateName, setAddress, setBedNumber, setSqFt}) {
+    const [minted, setMinted] = useState(undefined);
+    console.log("MINT FORM " + pubkey);
+    useCallback(async () => {
+       setMinted(await mintUserNFT(pubkey))
+    })
+    console.log(minted);
     const style = {
         singleTextFieldTitle: {
             display: "inline-block",
@@ -114,7 +121,7 @@ function MintForm({ newImages, setNewImages, setCarouselItems, setEstateName, se
                     />
                 </div>
                 <div className='MintFormRow'>
-                    <Button style={style.submitButton} variant="contained">Create NFT</Button>
+                    <Button style={style.submitButton} variant="contained" onClick={() => mintUserNFT(pubkey)}>Create NFT</Button>
                 </div>
             </div>
         </Box>
