@@ -89,7 +89,7 @@ function App() {
             <Buy buyPageData={buyPageData}/>
          )}
       {page && auth && page === "MyNFTs" && (
-         <MyNFTs auth={auth}/>
+         <MyNFTs auth={auth} setBuyPageData={setBuyPageData} setPage={setPage} />
       )}
       </div>
    );

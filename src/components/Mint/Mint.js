@@ -18,14 +18,14 @@ function Mint({auth}) {
     console.log("MINT " + auth);
       async function mintUserNFT(pubkey) {
          console.log("KILL ME " + pubkey);
-         axios.get('https://d6a1-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
+         axios.get('https://7b39-97-105-8-140.ngrok.io/createIssuer?id='+pubkey
          )
          .then(res => {
             console.log(res);
             albedo.tx({xdr: res.data.transaction, network: 'testnet', submit: true, })
             .then(out => {
                console.log(res.data.issuerPrivateKey)
-               axios.post('https://d6a1-97-105-8-140.ngrok.io/mintNFT', {
+               axios.post('https://7b39-97-105-8-140.ngrok.io/mintNFT', {
                   "issuerPublicKey": res.data.issuerPublicKey,
                   "issuerPrivateKey": res.data.issuerPrivateKey,
                   "creatorPublicKey": pubkey,
