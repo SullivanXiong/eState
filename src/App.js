@@ -4,6 +4,7 @@ import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
 import Mint from './components/Mint/Mint';
 import Buy from './components/Buy/Buy';
+import Sell from './components/Sell/Sell';
 import { Item } from './components/Carousel/components';
 
 const testData = [
@@ -54,7 +55,7 @@ function App() {
    const [ auth, setAuth ] = useState(undefined);
    const [ buyPageData, setBuyPageData ] = useState(undefined);
    const [ sellPageData, setSellPageData ] = useState(undefined);
-   
+
    console.log(auth);
 
    return (
@@ -86,6 +87,9 @@ function App() {
          )}
          {page && page === "Buy" && (
             <Buy buyPageData={buyPageData}/>
+         )}
+         {page && page === "Sell" && (
+            <Sell sellPageData={sellPageData}/>
          )}
       </div>
    );

@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Carousel from '../Carousel/Carousel';
 import { Item } from '../Carousel/components';
+import TextField from '@mui/material/TextField';
 import './Sell.css'
 
 function Sell({ sellPageData }) {
@@ -22,7 +23,8 @@ function Sell({ sellPageData }) {
             width: '33%'
         },
         button: {
-            width: '50%'
+            'margin-top': '1vh',
+            width: '20%'
         },
         previewHeader: {
             'margin-top': '2.5vh' 
@@ -38,6 +40,8 @@ function Sell({ sellPageData }) {
             color: 'black'
         }
     }
+
+    const [price, setPrice] = useState(undefined);
     
     return (
         <div className="Sell">
@@ -74,9 +78,17 @@ function Sell({ sellPageData }) {
                         </CardContent>
                     </Card>
                 </div>
-                <Stack spacing={2} direction="row" style={style.buttonWrapper}>
-                <Button variant="contained" style={style.button}>Sell</Button>
-                </Stack>
+                <div className="SellFieldWrapper">
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Price"
+                        onChange={(event) => setPrice(event.target.value)}
+                    />
+                    <Button variant="contained" style={style.button}>List</Button>
+                </div>
+                
+                
             </div>
         </div>
     );
