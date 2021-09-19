@@ -183,7 +183,6 @@ export default function PrimarySearchAppBar({ auth, setAuth, setPage }) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          {console.log(auth)}
           {!auth && (
             <Button color="inherit" onClick={() => {
                isLoggedIn().then(

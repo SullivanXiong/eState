@@ -4,7 +4,11 @@ import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
 import Mint from './components/Mint/Mint';
 import Buy from './components/Buy/Buy';
+<<<<<<< HEAD
 import Sell from './components/Sell/Sell';
+=======
+import MyNFTs from './components/MyNFTs'
+>>>>>>> f50dfe294674d165e12416a69d217112da2807cd
 import { Item } from './components/Carousel/components';
 
 const testData = [
@@ -82,8 +86,8 @@ function App() {
                </Grid>
             </>
          )}
-         {page && page === "Mint" && (
-            <Mint />
+         {page && auth && page === "Mint" && (
+            <Mint auth={auth}/>
          )}
          {page && page === "Buy" && (
             <Buy buyPageData={buyPageData}/>
@@ -91,6 +95,9 @@ function App() {
          {page && page === "Sell" && (
             <Sell sellPageData={sellPageData}/>
          )}
+      {page && auth && page === "MyNFTs" && (
+         <MyNFTs auth={auth}/>
+      )}
       </div>
    );
 }
