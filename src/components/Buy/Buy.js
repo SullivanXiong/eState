@@ -6,16 +6,26 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import MintForm from './BuyForm';
+import Stack from '@mui/material/Stack';
 import Carousel from '../Carousel/Carousel';
+import { Item } from '../Carousel/components';
 import './Buy.css'
 
-function Buy() {
+function Buy({ buyPageData }) {
     const style = {
         card: {
             position: 'relative',
             margin: 'auto',
-            'margin-top': '33%'
+            'margin-top': '2vh'
+        },
+        buttonWrapper: {
+            'margin-top': '1.5vh',
+            'margin-left': 'auto',
+            'margin-right': 'auto',
+            width: '33%'
+        },
+        button: {
+            width: '50%'
         },
         previewHeader: {
             'margin-top': '2.5vh' 
@@ -39,84 +49,46 @@ function Buy() {
     const [address, setAddress] = useState(undefined);
     const [bedNumber, setBedNumber] = useState(undefined);
     const [sqFt, setSqFt] = useState(undefined);
-
+    
     return (
-        <div className="Mint">
-            <div className="MintPreview">
+        <div className="Buy">
+            <div className="BuyCard">
                 <Typography style={style.previewHeader} variant="h4" component="div">
-                    Preview of ESTATE
+                    ESTATE Details
                 </Typography>
-                <div className="MintPreviewWrapper">
+                <div className="BuyCardWrapper">
                     <Card sx={{ maxWidth: 360 }} style={style.card}>
-                        {!newImages.images.length && (
-                            <CardMedia
-                                component="img"
-                                height="360"
-                                image="/houseLogo512x512.jpg"
-                                alt="default house"
-                            />
-                        )}
-                        {newImages.images.length && (
-                            <Carousel title="Carousel">
-                                {carouselItems}
-                            </Carousel>
-                        )}
+                        <Carousel title="Carousel">
+                            {buyPageData.imageURLs.map((imageURL) => { return <Item img={imageURL}/> })}
+                        </Carousel>
                         <CardContent>
-                            {!estateName && (
-                                <Typography gutterBottom variant="h5" component="div" style={style.defaultColor}>
-                                    Estate Name
-                                </Typography>
-                            )}
-                            {estateName && (
-                                <Typography gutterBottom variant="h5" component="div">
-                                    {estateName}
-                                </Typography>
-                            )}
-                            {!address && (
-                                <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
-                                    123 Address St
-                                </Typography>
-                            )}
-                            {address && (
-                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
-                                    {address}
-                                </Typography>
-                            )}
-                            {!bedNumber && (
-                                <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
-                                    0 Beds
-                                </Typography>
-                            )}
-                            {bedNumber && (
-                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
-                                    {bedNumber} Bed(s)
-                                </Typography>
-                            )}
-                            {!sqFt && (
-                                <Typography variant="body2" color="text.secondary" style={style.defaultColor}>
-                                    0 sq. Foot
-                                </Typography>
-                            )}
-                            {sqFt && (
-                                <Typography variant="body2" color="text.secondary" style={style.solidColor}>
-                                    {sqFt} sq. Foot
-                                </Typography>
-                            )}
+                            
+                            <Typography gutterBottom variant="h5" component="div">
+                                {buyPageData.estateName}
+                            </Typography>
+
+                            <Typography gutterBottom variant="h5" component="div">
+                                {buyPageData.price}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                {buyPageData.address}
+                            </Typography>
+
+                            <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                {buyPageData.numRooms} Bed(s)
+                            </Typography>
+                            
+                            <Typography variant="body2" color="text.secondary" style={style.solidColor}>
+                                {buyPageData.sqFt} sq. Foot
+                            </Typography>
+                            
                         </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
                     </Card>
                 </div>
-            </div>
-            <div className="MintForm">
-                <Typography variant="h4" style={style.formHeader}>
-                    Purchasing this Estate
-                </Typography>
-                <Divider>
-                </Divider>
-                <MintForm newImages={newImages} setNewImages={setNewImages} setCarouselItems={setCarouselItems} setEstateName={setEstateName} setAddress={setAddress} setBedNumber={setBedNumber} setSqFt={setSqFt}></MintForm>
+                <Stack spacing={2} direction="row" style={style.buttonWrapper}>
+                <Button variant="contained" style={style.button}>Mortgage</Button>
+                <Button variant="contained" style={style.button}>Buy</Button>
+                </Stack>
             </div>
         </div>
     );

@@ -4,11 +4,57 @@ import ListingCard from './components/ListingCard';
 import NavBar from './components/NavBar';
 import Mint from './components/Mint/Mint';
 import Buy from './components/Buy/Buy';
+import { Item } from './components/Carousel/components';
 
+const testData = [
+   {
+      'estateName': "Dandy's Crib",
+      'imageURLs': ["/houseLogo512x512.jpg", "/houseLogo512x512.jpg", "/houseLogo512x512.jpg"],
+      'imageAlt': "house",
+      'address': "123 NFT St Dallas, TX",
+      'price': "1537592 XLM",
+      'numRooms': "3",
+      'numBath': "1",
+      'sqFt': "1500",
+   },
+   {
+      'estateName': "Sullivan's Crib",
+      'imageURLs': ["/houseLogo512x512.jpg"],
+      'imageAlt': "house2",
+      'address': "456 NFT St Dallas, TX",
+      'price': "1537592 XLM",
+      'numRooms': "3",
+      'numBath': "1",
+      'sqFt': "1500",
+   },
+   {
+      'estateName': "Dandy's Crib",
+      'imageURLs': ["/houseLogo512x512.jpg"],
+      'imageAlt': "house3",
+      'address': "789 NFT St Dallas, TX",
+      'price': "1537592 XLM",
+      'numRooms': "3",
+      'numBath': "1",
+      'sqFt': "1500",
+   },
+   {
+      'estateName': "Dandy's Crib",
+      'imageURLs': ["/houseLogo512x512.jpg"],
+      'imageAlt': "house4",
+      'address': "1011 NFT St Dallas, TX",
+      'price': "38974543894325 XLM",
+      'numRooms': "3",
+      'numBath': "1",
+      'sqFt': "1500000000000",
+   }
+]
 
 function App() {
    const [ page, setPage ] = useState(undefined);
    const [ auth, setAuth ] = useState(undefined);
+   const [ buyPageData, setBuyPageData ] = useState(undefined);
+
+   console.log(auth);
 
    return (
       <div className="App">
@@ -16,18 +62,21 @@ function App() {
          { (!page || (page && page === "Marketplace")) && (
             <>
                <br />
-               <Grid container justifyContent="center" alignItems="center" spacing={2}>
-                  <Grid item md={3} onClick={() => setPage("Buy")}>
-                     <ListingCard imageURL="/Users/Kenny/Desktop/projects/eState/src/assets/house.jpg"
-                        imageAlt="house" address="123 NFT St Dallas, TX" price="1537592 XLM"
-                        numRooms="3" numBath="1" sqFt="1500" />
-                  </Grid>
-                  <Grid item md={3}>
-                     <ListingCard />
-                  </Grid>
-                  <Grid item md={3}>
-                     <ListingCard />
-                  </Grid>
+               <Grid container justifyContent="center" alignItems="center" spacing={3} style={{'padding-left': '10rem', 'padding-right': '10rem'}}>
+                  {testData.map((nft) => {
+                     return <Grid
+                        item md={4}
+                        onClick={() => { 
+                           setPage("Buy")
+                           setBuyPageData(nft)
+                        }}
+                     >
+                        <ListingCard images={nft.imageURLs.map((imageURL) => { return <Item img={imageURL}/> })}
+                           estateName={nft.estateName}
+                           imageAlt={nft.house} address={nft.address} price={nft.price}
+                           numRooms={nft.numRooms} numBath={nft.numBath} sqFt={nft.sqFt} />
+                     </Grid>
+                  })}
                </Grid>
             </>
          )}
@@ -35,7 +84,7 @@ function App() {
             <Mint />
          )}
          {page && page === "Buy" && (
-            <Buy />
+            <Buy buyPageData={buyPageData}/>
          )}
       </div>
    );
